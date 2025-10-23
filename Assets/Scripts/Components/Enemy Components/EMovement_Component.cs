@@ -1,20 +1,13 @@
 using UnityEngine;
 
-public class EMove_Component : Entity_MovementComponent
+public class EMovement_Component : Entity_MovementComponent
 {
-    /// <summary>
-    /// Attribute
-    /// </summary>
     [Header("Target Details")]
     private GameObject target;
 
     [Header("Speed Details")]
     private float speed;
 
-    
-    /// <summary>
-    /// Functions
-    /// </summary>
     public void SetTarget(GameObject player)
     {
         target = player;

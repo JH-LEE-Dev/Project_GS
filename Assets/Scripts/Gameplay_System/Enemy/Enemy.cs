@@ -3,18 +3,21 @@ using UnityEngine;
 
 public class Enemy : Entity
 {
+    [Header("Default Attribute")]
+    
+
     [Header("Components")]
-    private EMove_Component moveComponent;
+    private EMovement_Component moveComponent;
     private ECombat_Component combatComponent;
     private EHealth_Component healthComponent;
     private EStat_Component statComponent;
 
     [Header("Target Details")]
-    private GameObject target;
+    private GameObject player;
 
     private void Awake()
     {
-        moveComponent = GetComponent<EMove_Component>();
+        moveComponent = GetComponent<EMovement_Component>();
         combatComponent = GetComponent<ECombat_Component>();   
         healthComponent = GetComponent<EHealth_Component>();
         statComponent = GetComponent<EStat_Component>();
@@ -25,8 +28,8 @@ public class Enemy : Entity
         moveComponent.SetSpeed(statComponent.GetSpeed());
     }
 
-    public void SetTarget(GameObject player)
+    public void SetPlayerRef(GameObject _player)
     {
-        target = player;
+        player = _player;
     }
 }

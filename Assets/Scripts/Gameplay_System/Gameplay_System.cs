@@ -16,6 +16,11 @@ public class Gameplay_System : MonoBehaviour
     private void Start()
     {
         GameObject curPlayer = playerManager.SpawnPlayer();
+
+        if (curPlayer == null)
+            return;
+
         enemyManager.SetPlayerRef(curPlayer);
+        waveManager.SetPlayerRef(curPlayer);
     }
 }

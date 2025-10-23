@@ -3,16 +3,10 @@ using UnityEngine;
 
 public class Enemy_Manager : MonoBehaviour
 {
-    /// <summary>
-    /// Attributes
-    /// </summary>
     private GameObject enemyPrefab;
     private Transform spawnTransform;
     private GameObject player;
 
-    /// <summary>
-    /// Functions
-    /// </summary>
     void SpawnEnemy()
     {
         GameObject enemyObject = null;
@@ -25,7 +19,7 @@ public class Enemy_Manager : MonoBehaviour
             Enemy enemy = enemyObject.GetComponent<Enemy>();
 
             if (player != null)
-                enemy.SetTarget(player);
+                enemy.SetPlayerRef(player);
         }
     }
 
