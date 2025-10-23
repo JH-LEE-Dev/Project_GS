@@ -2,18 +2,12 @@ using UnityEngine;
 
 public class Player_Manager : MonoBehaviour
 {
-    /// <summary>
-    /// Attribute
-    /// </summary>
-    private GameObject playerPrefab;
+    [SerializeField] private GameObject playerPrefab;
     private GameObject player;
 
     [Header("Spawn Details")]
     [SerializeField] private Transform spawnTransform;
 
-    /// <summary>
-    /// Functions
-    /// </summary>
     public GameObject SpawnPlayer(bool isGunSpawn = false)
     {
         if (playerPrefab == null || player != null)

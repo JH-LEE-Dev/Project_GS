@@ -1,15 +1,31 @@
 using UnityEngine;
 
-public class Entity_HealthComponent : MonoBehaviour
+public class Entity_HealthComponent : MonoBehaviour, IDamageable
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    /*
+     * 속성
+     */
+    [Header("Details")]
+    private float curHP;
+    private float maxHP;
+
+    /*
+     * 함수 
+     */
+    public void SetMaxHP(int maxHP)
     {
-        
+        this.maxHP = maxHP;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void DecreaseHP(float damage)
+    {
+        curHP -= damage;
+
+        if (curHP <= 0)
+            curHP = 0;
+    }
+
+    public virtual void TakeDamage(float damage)
     {
         
     }
