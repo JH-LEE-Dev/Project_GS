@@ -5,6 +5,7 @@ public class Player_Manager : MonoBehaviour
     /// <summary>
     /// Attribute
     /// </summary>
+    private GameObject playerPrefab;
     private GameObject player;
 
     [Header("Spawn Details")]
@@ -13,16 +14,13 @@ public class Player_Manager : MonoBehaviour
     /// <summary>
     /// Functions
     /// </summary>
-    public void SpawnPlayer()
+    public GameObject SpawnPlayer()
     {
-        if(player == null)
+        if(playerPrefab != null && player == null)
         {
-            player = Instantiate(player, spawnTransform.position, Quaternion.identity);
+            player = Instantiate(playerPrefab, spawnTransform.position, Quaternion.identity);
         }
-    }
 
-    private void Start()
-    {
-        SpawnPlayer();
+        return player;
     }
 }
