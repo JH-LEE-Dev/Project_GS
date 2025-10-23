@@ -5,7 +5,7 @@ using UnityEngine;
 [Serializable]
 public class SimpleValue
 {
-    [SerializeField] private int value;
+    [SerializeField] private float value;
 
-    public int GetValue() => value;
+    public float GetValue() => value;
 }

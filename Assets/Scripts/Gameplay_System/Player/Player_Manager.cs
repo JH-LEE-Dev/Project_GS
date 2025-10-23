@@ -14,11 +14,17 @@ public class Player_Manager : MonoBehaviour
     /// <summary>
     /// Functions
     /// </summary>
-    public GameObject SpawnPlayer()
+    public GameObject SpawnPlayer(bool isGunSpawn = false)
     {
-        if(playerPrefab != null && player == null)
+        if (playerPrefab == null || player != null)
+            return default;
+
+        player = Instantiate(playerPrefab, spawnTransform.position, Quaternion.identity);
+
+        if (isGunSpawn)
         {
-            player = Instantiate(playerPrefab, spawnTransform.position, Quaternion.identity);
+            Player script = player.GetComponent<Player>();
+            script?.CreateGun(player.transform);
         }
 
         return player;
