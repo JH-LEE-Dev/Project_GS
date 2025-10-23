@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ECombat_Component : Entity_CombatComponent
+public class Entity_HealthComponent : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
