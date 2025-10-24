@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class Stat_OffenceGroup
+public class Stat_OffenseGroup
 {
     public SimpleValue baseDamage;          // 공격력
     public SimpleValue baseCritChance;      // 크리티컬 확률
