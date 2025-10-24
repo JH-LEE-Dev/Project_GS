@@ -6,7 +6,6 @@ public class EMovement_Component : Entity_MovementComponent
     private GameObject target;
 
     [Header("Movement Details")]
-    [SerializeField] private float speed;
     private int facingDir = 1;
     
 
@@ -15,18 +14,13 @@ public class EMovement_Component : Entity_MovementComponent
         target = player;
     }
 
-    public void SetSpeed(float _speed)
-    {
-        speed = _speed;
-    }
-
     private void Update()
     {
         HandleFlip();
-        MoveToTarget();
+        MoveToTarget(target.transform,sampleSpeed);
     }
 
-    private void MoveToTarget()
+    public override void MoveToTarget(Transform targetTransform, float speed)
     {
         if (target == null)
             return;
@@ -35,7 +29,7 @@ public class EMovement_Component : Entity_MovementComponent
         Vector3 dirToTarget = target.transform.position - transform.position;
         dirToTarget.Normalize();
 
-        transform.position += dirToTarget * speed * Time.deltaTime;
+        rb.linearVelocity = dirToTarget * sampleSpeed;
     }
 
     private int CalcDir()

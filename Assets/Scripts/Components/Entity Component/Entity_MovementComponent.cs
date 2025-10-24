@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class Entity_MovementComponent : MonoBehaviour
 {
-    private Rigidbody2D rb;
+    protected Rigidbody2D rb;
 
     [Header("Movement Details")]
-    [SerializeField] private float stopDist;
+    [SerializeField] protected float stopDist;
 
-    [SerializeField] private bool testMove;
-    [SerializeField] private Transform sampleTarget;
-    [SerializeField] private float sampleSpeed;
+    [SerializeField] protected bool testMove;
+    [SerializeField] protected Transform sampleTarget;
+    [SerializeField] protected float sampleSpeed;
 
     private void Awake()
     {
@@ -41,5 +41,10 @@ public class Entity_MovementComponent : MonoBehaviour
         }
 
         rb.linearVelocity = finalDir * speed;
+    }
+
+    public void SetSpeed(float _speed)
+    {
+        sampleSpeed = _speed;
     }
 }

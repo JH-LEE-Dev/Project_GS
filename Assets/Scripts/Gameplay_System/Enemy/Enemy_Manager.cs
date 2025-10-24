@@ -15,18 +15,21 @@ public class Enemy_Manager : MonoBehaviour
 
     public static void SpawnEnemy(Vector3 spawningTransform)
     {
-        GameObject enemyObject = null;
-
-        if (enemyPrefab != null)
-            enemyObject = Instantiate(enemyPrefab, spawningTransform, Quaternion.identity);
-
-        if (enemyObject != null)
+        for (int i = 0; i < 25; i++)
         {
-            Enemy enemy = enemyObject.GetComponent<Enemy>();
+            GameObject enemyObject = null;
 
-            if (player != null && enemy)
+            if (enemyPrefab != null)
+                enemyObject = Instantiate(enemyPrefab, spawningTransform, Quaternion.identity);
+
+            if (enemyObject != null)
             {
-                enemy.SetPlayerRef(player);
+                Enemy enemy = enemyObject.GetComponent<Enemy>();
+
+                if (player != null && enemy)
+                {
+                    enemy.SetPlayerRef(player);
+                }
             }
         }
     }

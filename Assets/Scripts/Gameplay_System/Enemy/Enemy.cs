@@ -25,7 +25,7 @@ public class Enemy : Entity
 
     private void Start()
     {
-        movementComponent.SetSpeed(statComponent.GetSpeed());
+        movementComponent.SetSpeed(statComponent.GetBaseSpeed());
     }
 
     public void SetPlayerRef(GameObject _player)

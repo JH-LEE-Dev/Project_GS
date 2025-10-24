@@ -22,8 +22,8 @@ public class Wave_Manager : MonoBehaviour
         float cameraWidth = cameraBoundary.Item2;
 
         Vector3 playerPosition = player.transform.position;
-        playerPosition.x += cameraHeight;
-        playerPosition.y += cameraWidth;
+        playerPosition.x += cameraWidth;
+        playerPosition.y += cameraHeight;
 
         Debug.Log("playerPositionx : " + playerPosition.x);
         Debug.Log("playerPositiony : " + playerPosition.y);
@@ -40,7 +40,7 @@ public class Wave_Manager : MonoBehaviour
     {
         Camera cam = Camera.main;
 
-        float height = cam.orthographicSize * 2f;
+        float height = cam.orthographicSize;
 
         float width = height * cam.aspect;
 
