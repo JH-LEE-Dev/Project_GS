@@ -7,7 +7,7 @@ public class Enemy : Entity
     
 
     [Header("Components")]
-    private EMovement_Component moveComponent;
+    private EMovement_Component movementComponent;
     private ECombat_Component combatComponent;
     private EHealth_Component healthComponent;
     private EStat_Component statComponent;
@@ -17,7 +17,7 @@ public class Enemy : Entity
 
     private void Awake()
     {
-        moveComponent = GetComponent<EMovement_Component>();
+        movementComponent = GetComponent<EMovement_Component>();
         combatComponent = GetComponent<ECombat_Component>();   
         healthComponent = GetComponent<EHealth_Component>();
         statComponent = GetComponent<EStat_Component>();
@@ -25,11 +25,12 @@ public class Enemy : Entity
 
     private void Start()
     {
-        moveComponent.SetSpeed(statComponent.GetSpeed());
+        movementComponent.SetSpeed(statComponent.GetSpeed());
     }
 
     public void SetPlayerRef(GameObject _player)
     {
         player = _player;
+        movementComponent.SetTarget(player);
     }
 }

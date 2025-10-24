@@ -3,27 +3,51 @@ using UnityEngine;
 
 public class Enemy_Manager : MonoBehaviour
 {
-    private GameObject enemyPrefab;
-    private Transform spawnTransform;
-    private GameObject player;
+    [Header("Static Var for Spawning")]
+    [SerializeField] EnemySpawnData enemySpawnData;
+    private static GameObject player;
+    private static GameObject enemyPrefab;
 
-    void SpawnEnemy()
+    private static int[] sideAlphaX = { 0, 0, 0, 0 };
+    private static int[] sideAlphaY = { 0, 0, 0, 0 };
+
+    private void Awake()
     {
-        GameObject enemyObject = null;
+        enemyPrefab = enemySpawnData.enemyPrefab;
+        sideAlphaX = enemySpawnData.sideAlphaX;
+        sideAlphaY = enemySpawnData.sideAlphaY;
+    }
 
-        if (enemyPrefab != null)
-            enemyObject = Instantiate(enemyPrefab, spawnTransform.position, Quaternion.identity);
-
-        if (enemyObject != null)
+    public static void SpawnEnemy(Vector3 spawningTransform,int side)
+    {
+        for (int i = 0; i < 50; i++)
         {
-            Enemy enemy = enemyObject.GetComponent<Enemy>();
+            Vector3 center = spawningTransform;
 
-            if (player != null)
-                enemy.SetPlayerRef(player);
+            float radius = Random.Range(0f, 1f);
+            float angle = i * Mathf.PI * 2 / 50;
+            float x = Mathf.Cos(angle) * (radius + sideAlphaX[side]) + center.x;
+            float y = Mathf.Sin(angle) * (radius + sideAlphaY[side]) + center.y;
+            Vector3 spawnPos = new Vector3(x, y, 0f);
+
+            GameObject enemyObject = null;
+
+            if (enemyPrefab != null)
+                enemyObject = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+
+            if (enemyObject != null)
+            {
+                Enemy enemy = enemyObject.GetComponent<Enemy>();
+
+                if (player != null && enemy)
+                {
+                    enemy.SetPlayerRef(player);
+                }
+            }
         }
     }
 
-    public void SetPlayerRef(GameObject _player)
+    public void Initialize(GameObject _player)
     {
         player = _player;
     }

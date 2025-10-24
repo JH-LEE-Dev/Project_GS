@@ -3,23 +3,12 @@ using UnityEngine;
 
 public class EStat_Component : Entity_StatComponent
 {
-    [Header("Stat Details")]
-    [SerializeField] private int damage;
-    [SerializeField] private int maxHP;
-    [SerializeField] private float speed;
-
     public float GetSpeed()
     {
-        return speed;
-    }
+        float BaseSpeed = GetBaseSpeed();
 
-    public int GetDamage()
-    {
-        return damage;
-    }
+        float Alpha = Random.Range(0f, 1f);
 
-    public int GetMaxHP()
-    {
-        return maxHP;
+        return BaseSpeed + Alpha;
     }
 }

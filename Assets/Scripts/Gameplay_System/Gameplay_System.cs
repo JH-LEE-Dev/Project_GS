@@ -20,7 +20,9 @@ public class Gameplay_System : MonoBehaviour
         if (curPlayer == null)
             return;
 
-        enemyManager.SetPlayerRef(curPlayer);
-        waveManager.SetPlayerRef(curPlayer);
+        enemyManager.Initialize(curPlayer);
+        waveManager.Initialize(curPlayer);
+
+        waveManager.StartWave();    
     }
 }
