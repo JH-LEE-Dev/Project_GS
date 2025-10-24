@@ -11,6 +11,8 @@ public class Entity_MovementComponent : MonoBehaviour
     [SerializeField] protected Transform sampleTarget;
     [SerializeField] protected float sampleSpeed;
 
+    private Vector2 vel;
+
     private void Awake()
     {
         rb ??= GetComponent<Rigidbody2D>();
@@ -25,7 +27,7 @@ public class Entity_MovementComponent : MonoBehaviour
         Debug.Log("Target: " + sampleTarget.name);
     }
 
-    public virtual void MoveToTarget(Transform targetTransform, float speed)
+    public virtual void MoveToTarget(Transform targetTransform, float speed, float scaleFactor = 1f)
     {
         if (null == rb)
             return;
@@ -40,7 +42,19 @@ public class Entity_MovementComponent : MonoBehaviour
             return;
         }
 
-        rb.linearVelocity = finalDir * speed;
+        rb.linearVelocity = finalDir * speed * scaleFactor;
+    }
+
+    public void MoveToTargetLerp(Transform targetTransform, float speed, float scaleFactor = 1f)
+    {
+        if (null == rb)
+            return;
+
+        float smoothTime = 0.15f;
+        float maxSpeed = speed * scaleFactor;
+        Vector2 newPos = Vector2.SmoothDamp(transform.position, targetTransform.position, ref vel, smoothTime, maxSpeed);
+
+        rb.MovePosition(newPos);
     }
 
     public void SetSpeed(float _speed)

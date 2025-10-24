@@ -1,6 +1,5 @@
+using NUnit.Framework.Interfaces;
 using UnityEngine;
-
-public enum GrabState {  grabbed, dropped, end }
 
 public class Gun : MonoBehaviour
 {
@@ -11,15 +10,15 @@ public class Gun : MonoBehaviour
 
     [Header("Gun State Details")]
     [SerializeField] protected GrabState currState; 
-    [SerializeField] protected SortingLayer grabbedSortingLayer; 
-    [SerializeField] protected SortingLayer droppedSortingLayer;
+    [SerializeField] protected string grabbedSortingLayer; 
+    [SerializeField] protected string droppedSortingLayer;
 
     [Header("Offense Details")]
     [SerializeField] protected Transform launchPoint;
-    [SerializeField] protected Gun_StatComponent gunStats;
+    protected Gun_StatComponent gunStats;
+    // TOOD:: health, combat, Level
 
     // 화기 전용 스킬 ( 각자 다름, 클래스 파생 )
-    // 레벨 컴포넌트 ( 공용 Gun에서 사용 )
 
     public virtual void Initialize(Player player)
     {
@@ -27,8 +26,10 @@ public class Gun : MonoBehaviour
         playerBaseState ??= player.GetComponent<Player_StatComponent>();
         entityMoveComp ??= GetComponent<Entity_MovementComponent>();
         sr ??= GetComponentInChildren<SpriteRenderer>();
+        gunStats ??= GetComponent<Gun_StatComponent>();
 
-        currState = GrabState.dropped;
+        ChangeFollowHand(GrabState.grabbed);
+        gunStats?.CashingPlayerStat(playerBaseState);
     }
 
     public virtual void Update()
@@ -38,17 +39,32 @@ public class Gun : MonoBehaviour
 
     private void MoveToPlayer()
     {
-        if (null == entityMoveComp || null == player || null == playerBaseState)
+        if (null == entityMoveComp || null == player || null == gunStats)
             return;
 
-        //entityMoveComp.MoveToTarget(player.transform, )
+        entityMoveComp.MoveToTargetLerp(player.transform, gunStats.GetTotalSpeed());
+        Debug.Log("Gun - MoveToPlayer: Run.");
     }
 
     public void ChangeFollowHand(GrabState newState)
     {
         if (GrabState.grabbed == newState)
-            sr.sortingLayerName = "GrabbedGun";
+            sr.sortingLayerName = grabbedSortingLayer;
+        else 
+            sr.sortingLayerName = droppedSortingLayer;
 
         currState = newState;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (null == launchPoint)
+            return;
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(launchPoint.position, 0.3f);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(launchPoint.position, launchPoint.position + transform.right * 1f);
     }
 }

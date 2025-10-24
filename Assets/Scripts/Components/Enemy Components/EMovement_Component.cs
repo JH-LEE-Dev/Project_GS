@@ -20,7 +20,7 @@ public class EMovement_Component : Entity_MovementComponent
         MoveToTarget(target.transform,sampleSpeed);
     }
 
-    public override void MoveToTarget(Transform targetTransform, float speed)
+    public override void MoveToTarget(Transform targetTransform, float speed, float scaleFactor = 1f)
     {
         if (target == null)
             return;
@@ -29,7 +29,7 @@ public class EMovement_Component : Entity_MovementComponent
         Vector3 dirToTarget = target.transform.position - transform.position;
         dirToTarget.Normalize();
 
-        rb.linearVelocity = dirToTarget * sampleSpeed;
+        rb.linearVelocity = dirToTarget * sampleSpeed * scaleFactor;
     }
 
     private int CalcDir()

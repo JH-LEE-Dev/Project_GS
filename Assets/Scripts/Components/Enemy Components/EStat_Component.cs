@@ -5,7 +5,7 @@ public class EStat_Component : Entity_StatComponent
 {
     public float GetSpeed()
     {
-        float BaseSpeed = GetBaseSpeed();
+        float BaseSpeed = resource.baseSpeed.GetValue();
 
         float Alpha = Random.Range(0f, 1f);
 

@@ -1,5 +1,7 @@
 using UnityEngine;
 
+using Game.Stats;
+
 public class Entity_StatComponent : MonoBehaviour
 {
     public Stat_OffenseGroup offense;

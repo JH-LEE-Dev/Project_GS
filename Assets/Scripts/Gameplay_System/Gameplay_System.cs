@@ -15,13 +15,13 @@ public class Gameplay_System : MonoBehaviour
 
     private void Start()
     {
-        GameObject curPlayer = playerManager.SpawnPlayer();
+        GameObject curGun = playerManager.SpawnPlayer();
 
-        if (curPlayer == null)
+        if (curGun == null)
             return;
 
-        enemyManager.Initialize(curPlayer);
-        waveManager.Initialize(curPlayer);
+        enemyManager.Initialize(curGun);
+        waveManager.Initialize(curGun);
 
         waveManager.StartWave();    
     }

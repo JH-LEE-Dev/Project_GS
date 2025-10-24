@@ -2,6 +2,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+using Game.Prefab;
+
 public class Player : MonoBehaviour
 {
     private PlayerInputSet input;
@@ -10,28 +12,29 @@ public class Player : MonoBehaviour
 
     // 재화 컴포넌트 필요 ( 추후에 상점에서 사용하거나 건축에 사용될 재화가 포함 되어 있음 )
     // 레벨시스템 컴포넌트 필요 ( 레벨 관련된 경험치, 최대 경험치 등 )
+    // 총이 가진 특수 기능만 스크립트를 바꾸는 게 가능한가
 
-    [Header("Gun Information Detail")]
+    [Header("Collision Details")]
+    [SerializeField] private Transform collTransform;
+    [SerializeField] private float circleRadius;
+
+    [Header("Summoned Gun Information Details")]
     [SerializeField] private bool grabbedGun;
-    [SerializeField] private GunName curGunName;
-    [SerializeField] private GameObject[] gunPrefab;
+    [SerializeField] private GunName equipmentGunName;
+    [SerializeField] private GunPrefab[] gunPrefab;
     private Gun summonedGun;
 
-    [Header("Collision LayerMask Detail")]
+    [Header("Collision LayerMask Details")]
     [SerializeField] private LayerMask[] collisionLayer;
 
     private Camera cam;
-    private CircleCollider2D col;
 
     private void Awake()
     {
         input ??= new PlayerInputSet();
 
         baseStat ??= GetComponent<Player_StatComponent>();
-        col ??= GetComponent<CircleCollider2D>();
         cam ??= Camera.main;
-
-        curGunName = GunName.M92;
     }
 
     private void Update()
@@ -53,18 +56,20 @@ public class Player : MonoBehaviour
         
     }
 
-    public bool CreateGun(Transform spawnPoint)
+    public GameObject CreateGun(Transform spawnPoint)
     {
-        if (null == gunPrefab[(int)curGunName])
-            return false;
+        if (null == gunPrefab[(int)equipmentGunName].prefab)
+            return default;
 
-        GameObject summonedObject = Instantiate(gunPrefab[(int)curGunName], spawnPoint.position, Quaternion.identity);
+        GameObject summonedObject = Instantiate(gunPrefab[(int)equipmentGunName].prefab, spawnPoint.position, Quaternion.identity);
 
         this.summonedGun = summonedObject?.GetComponent<Gun>();
         summonedGun.Initialize(this);
         grabbedGun = false;
 
-        return true;
+        Debug.Log("Successfully Completed a Gun Spawn");
+
+        return summonedObject;
     }
 
     private void OnEnable()
@@ -80,7 +85,7 @@ public class Player : MonoBehaviour
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        int limits = (int)GunName.End;
+        int limits = (int)GunName.end;
 
         if (null == gunPrefab || gunPrefab.Length != limits)
             System.Array.Resize(ref gunPrefab, limits);

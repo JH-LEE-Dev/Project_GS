@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd226b414f6a3e84f82eb2592294cf2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player_Manager
-  playerPrefab: {fileID: 5346000222959923486, guid: 6176b7432d7621140bb59fe5e1d66701, type: 3}
+  playerPrefab: {fileID: 5156065940630724519, guid: 6176b7432d7621140bb59fe5e1d66701, type: 3}
   spawnTransform: {fileID: 2075274868}
 --- !u!1 &52152355
 GameObject:

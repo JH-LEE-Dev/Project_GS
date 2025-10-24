@@ -3,10 +3,10 @@ using UnityEngine;
 [System.Serializable]
 public class UpgradeValues
 {
-    private int curUpgradeAmount;
-    private int maxUgradeAmount;
+    [SerializeField] private int curUpgradeAmount;
+    [SerializeField] private int maxUgradeAmount;
 
-    private float upgradeValue;
+    [SerializeField] private float upgradeValue;
 
     public int GetAmount() => curUpgradeAmount;
 
@@ -39,7 +39,7 @@ public class EnhanceValue
     public UpgradeValues accuracy;        // 명중률
     public UpgradeValues launchSpeed;     // 발사속도
     public UpgradeValues reloadSpeed;     // 재장전속도
-    public UpgradeValues CritChance;      // 크리티컬 확률
-    public UpgradeValues CritDamage;      // 크리티컬 대미지
+    public UpgradeValues critChance;      // 크리티컬 확률
+    public UpgradeValues critPower;      // 크리티컬 대미지
 }
 

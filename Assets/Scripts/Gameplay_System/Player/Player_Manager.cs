@@ -8,19 +8,14 @@ public class Player_Manager : MonoBehaviour
     [Header("Spawn Details")]
     [SerializeField] private Transform spawnTransform;
 
-    public GameObject SpawnPlayer(bool isGunSpawn = false)
+    public GameObject SpawnPlayer()
     {
         if (playerPrefab == null || player != null)
             return default;
 
-        player = Instantiate(playerPrefab, spawnTransform.position, Quaternion.identity);
+        player = Instantiate(playerPrefab);
 
-        if (isGunSpawn)
-        {
-            Player script = player.GetComponent<Player>();
-            script?.CreateGun(player.transform);
-        }
-
-        return player;
+        Player script = player.GetComponent<Player>();
+        return script?.CreateGun(spawnTransform);
     }
 }
