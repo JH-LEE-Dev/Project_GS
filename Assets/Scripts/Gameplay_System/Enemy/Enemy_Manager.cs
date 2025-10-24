@@ -3,27 +3,35 @@ using UnityEngine;
 
 public class Enemy_Manager : MonoBehaviour
 {
-    private GameObject enemyPrefab;
-    private Transform spawnTransform;
-    private GameObject player;
+    [Header("Static Var for Spawning")]
+    [SerializeField] EnemySpawnData enemySpawnData;
+    private static GameObject player;
+    private static GameObject enemyPrefab;
 
-    void SpawnEnemy()
+    private void Awake()
+    {
+        enemyPrefab = enemySpawnData.enemyPrefab;
+    }
+
+    public static void SpawnEnemy(Vector3 spawningTransform)
     {
         GameObject enemyObject = null;
 
         if (enemyPrefab != null)
-            enemyObject = Instantiate(enemyPrefab, spawnTransform.position, Quaternion.identity);
+            enemyObject = Instantiate(enemyPrefab, spawningTransform, Quaternion.identity);
 
         if (enemyObject != null)
         {
             Enemy enemy = enemyObject.GetComponent<Enemy>();
 
-            if (player != null)
+            if (player != null && enemy)
+            {
                 enemy.SetPlayerRef(player);
+            }
         }
     }
 
-    public void SetPlayerRef(GameObject _player)
+    public void Initialize(GameObject _player)
     {
         player = _player;
     }

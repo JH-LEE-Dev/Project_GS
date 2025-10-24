@@ -190,6 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d317abbf9639ee4f871ee7758e635bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy_Manager
+  enemySpawnData: {fileID: 11400000, guid: 5658f92b7b92e68459b58dab4eab454a, type: 2}
 --- !u!114 &31559278
 MonoBehaviour:
   m_ObjectHideFlags: 0

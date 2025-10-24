@@ -10,7 +10,7 @@ public class Wave_Manager : MonoBehaviour
     [Header("Spawn Details")]
     private GameObject enemyPrefab;
 
-    public void SetPlayerRef(GameObject _player)
+    public void Initialize(GameObject _player)
     {
         player = _player;
     }
@@ -20,6 +20,20 @@ public class Wave_Manager : MonoBehaviour
         Tuple<float, float> cameraBoundary = GetCameraBoundary();
         float cameraHeight = cameraBoundary.Item1;
         float cameraWidth = cameraBoundary.Item2;
+
+        Vector3 playerPosition = player.transform.position;
+        playerPosition.x += cameraHeight;
+        playerPosition.y += cameraWidth;
+
+        Debug.Log("playerPositionx : " + playerPosition.x);
+        Debug.Log("playerPositiony : " + playerPosition.y);
+
+        Enemy_Manager.SpawnEnemy(playerPosition);
+    }
+
+    public void StartWave()
+    {
+        SpawnWave();
     }
 
     Tuple<float ,float> GetCameraBoundary()
