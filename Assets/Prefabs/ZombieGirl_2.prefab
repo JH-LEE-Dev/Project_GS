@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 1475807112641386967}
   - component: {fileID: 8036163621093940355}
   - component: {fileID: 3472781037269850107}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ZombieGirl_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -189,7 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e12809944ab551409160bb1dd113d1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EStat_Component
-  offence:
+  offense:
     baseDamage:
       value: 0
     baseCritChance:

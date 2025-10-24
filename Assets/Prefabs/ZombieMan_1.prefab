@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 7821961312135946642}
   - component: {fileID: 6063622769112255445}
   - component: {fileID: -8604453387654619350}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ZombieMan_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,7 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e12809944ab551409160bb1dd113d1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EStat_Component
-  offence:
+  offense:
     baseDamage:
       value: 0
     baseCritChance:

@@ -1,11 +1,15 @@
 using NUnit.Framework.Interfaces;
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class Gun : MonoBehaviour
 {
     protected Player player;
     protected Player_StatComponent playerBaseState;
     protected Entity_MovementComponent entityMoveComp;
+    protected Gun_StatComponent gunStats;
     private SpriteRenderer sr;
 
     [Header("Gun State Details")]
@@ -15,7 +19,14 @@ public class Gun : MonoBehaviour
 
     [Header("Offense Details")]
     [SerializeField] protected Transform launchPoint;
-    protected Gun_StatComponent gunStats;
+    [SerializeField] protected float rotateTime;
+    private float rotVal;
+
+    [Header("Collision Details")]
+    [SerializeField] protected LayerMask targetLayer;
+    [SerializeField] protected float searchBoundary;
+    private Transform attackTarget;
+    
     // TOOD:: health, combat, Level
 
     // 화기 전용 스킬 ( 각자 다름, 클래스 파생 )
@@ -35,6 +46,38 @@ public class Gun : MonoBehaviour
     public virtual void Update()
     {
         MoveToPlayer();
+        RotateToTarget();
+        Flip();
+    }
+    private void RotateToTarget()
+    {
+        if (null == attackTarget)
+        {
+            attackTarget = RandomSearchObject();
+            if (null == attackTarget)
+                return;
+        }
+
+        Vector2 targetDir = attackTarget.position - transform.position;
+        if (targetDir.sqrMagnitude < 1e-6f)
+            return;
+
+        float targetZ = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg;
+
+        float currentZ = transform.eulerAngles.z;
+        float nextZ = Mathf.SmoothDampAngle(currentZ, targetZ, ref rotVal, rotateTime, Mathf.Infinity, Time.deltaTime);
+
+        transform.rotation = Quaternion.Euler(0f, 0f, nextZ);
+    }
+
+    private Transform RandomSearchObject()
+    {
+        Collider2D target = Physics2D.OverlapCircle(transform.position, searchBoundary, targetLayer);
+
+        if (null == target)
+            return null;
+
+        return target.transform;
     }
 
     private void MoveToPlayer()
@@ -56,6 +99,13 @@ public class Gun : MonoBehaviour
         currState = newState;
     }
 
+    private void Flip()
+    {
+        float eulerAngleZ = transform.eulerAngles.z;
+        float singedZ = Mathf.DeltaAngle(0f, eulerAngleZ);
+
+    }
+
     private void OnDrawGizmos()
     {
         if (null == launchPoint)
@@ -66,5 +116,8 @@ public class Gun : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawLine(launchPoint.position, launchPoint.position + transform.right * 1f);
+
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(transform.position, searchBoundary);
     }
 }
