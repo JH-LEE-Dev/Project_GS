@@ -7,7 +7,7 @@ public class EMovement_Component : Entity_MovementComponent
 
     [Header("Movement Details")]
     private int facingDir = 1;
-    
+    [SerializeField] private float flipThreshold = 0.5f;
 
     public void SetTarget(GameObject player)
     {
@@ -17,7 +17,9 @@ public class EMovement_Component : Entity_MovementComponent
     private void Update()
     {
         HandleFlip();
-        MoveToTarget(target.transform,sampleSpeed);
+
+        if (target != null)
+            MoveToTarget(target.transform, sampleSpeed);
     }
 
     public override void MoveToTarget(Transform targetTransform, float speed, float scaleFactor = 1f)
@@ -37,6 +39,9 @@ public class EMovement_Component : Entity_MovementComponent
         if (target == null)
             return 1;
 
+        if (Mathf.Abs(target.transform.position.x - transform.position.x) < flipThreshold)
+            return facingDir;
+
         if (target.transform.position.x > transform.position.x)
             return 1;
         else
@@ -47,7 +52,7 @@ public class EMovement_Component : Entity_MovementComponent
     {
         int nxtDir = CalcDir();
 
-        if(facingDir != nxtDir)
+        if (facingDir != nxtDir)
         {
             Vector3 scale = transform.localScale;
             scale.x *= -1;
