@@ -178,6 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbe1c84b022b52448b2644dc050139fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Wave_Manager
+  spawnDistanceAlpha: 1.5
 --- !u!114 &31559277
 MonoBehaviour:
   m_ObjectHideFlags: 0

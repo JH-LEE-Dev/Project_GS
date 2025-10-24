@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnData
   enemyPrefab: {fileID: 2046541063456854105, guid: 82a897406221c574a9c2792c2e0e9278, type: 3}
   bossPrefab: {fileID: 0}
+  sideAlphaX: 00000000000000000300000003000000
+  sideAlphaY: 03000000030000000000000000000000
