@@ -6,14 +6,14 @@ public class Enemy_Manager : MonoBehaviour
     [Header("Static Var for Spawning")]
     [SerializeField] EnemySpawnData enemySpawnData;
     private static GameObject player;
-    private static GameObject enemyPrefab;
+    private static GameObject[] enemyPrefabs;
 
     private static int[] sideAlphaX = { 0, 0, 0, 0 };
     private static int[] sideAlphaY = { 0, 0, 0, 0 };
 
     private void Awake()
     {
-        enemyPrefab = enemySpawnData.enemyPrefab;
+        enemyPrefabs = enemySpawnData.enemyPrefabs;
         sideAlphaX = enemySpawnData.sideAlphaX;
         sideAlphaY = enemySpawnData.sideAlphaY;
     }
@@ -22,6 +22,7 @@ public class Enemy_Manager : MonoBehaviour
     {
         for (int i = 0; i < 50; i++)
         {
+            int spawnEnemyType = Random.Range((int)EnemyType.ZombieMen, (int)EnemyType.ZombieGirl2);
             Vector3 center = spawningTransform;
 
             float radius = Random.Range(0f, 1f);
@@ -32,8 +33,8 @@ public class Enemy_Manager : MonoBehaviour
 
             GameObject enemyObject = null;
 
-            if (enemyPrefab != null)
-                enemyObject = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+            if (enemyPrefabs[spawnEnemyType] != null)
+                enemyObject = Instantiate(enemyPrefabs[spawnEnemyType], spawnPos, Quaternion.identity);
 
             if (enemyObject != null)
             {

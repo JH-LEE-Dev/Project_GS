@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68b821e9659deb24aa910fd77f4d12eb, type: 3}
   m_Name: EnemySpawnData
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnData
-  enemyPrefab: {fileID: 2046541063456854105, guid: 82a897406221c574a9c2792c2e0e9278, type: 3}
-  bossPrefab: {fileID: 0}
+  enemyPrefabs:
+  - {fileID: 2046541063456854105, guid: 82a897406221c574a9c2792c2e0e9278, type: 3}
+  - {fileID: 6709162926549456115, guid: 07af57bd2f7b90b4eb6a5862fb0e9955, type: 3}
+  - {fileID: 8299023576484874409, guid: 812afcd1403d0e443b92e98093625e8e, type: 3}
+  - {fileID: 3570505139167065059, guid: 4422040c3f734cd4eb1315c71831996f, type: 3}
+  bossPrefabs: []
   sideAlphaX: 00000000000000000300000003000000
   sideAlphaY: 03000000030000000000000000000000

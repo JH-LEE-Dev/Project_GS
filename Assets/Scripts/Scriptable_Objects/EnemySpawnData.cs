@@ -5,8 +5,8 @@ using UnityEngine;
 public class EnemySpawnData : ScriptableObject
 {
     [Header("Prefab References")]
-    public GameObject enemyPrefab;
-    public GameObject bossPrefab;
+    public GameObject[] enemyPrefabs;
+    public GameObject[] bossPrefabs;
     public int[] sideAlphaX = new int[4];
     public int[] sideAlphaY = new int[4];
 }
