@@ -20,7 +20,7 @@ public class Enemy_Manager : MonoBehaviour
 
     public static void SpawnEnemy(Vector3 spawningTransform,int side)
     {
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < 1; i++)
         {
             int spawnEnemyType = Random.Range((int)EnemyType.ZombieMen, (int)EnemyType.ZombieGirl2);
             Vector3 center = spawningTransform;

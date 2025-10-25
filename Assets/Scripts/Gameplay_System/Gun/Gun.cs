@@ -26,6 +26,8 @@ public class Gun : MonoBehaviour
     [SerializeField] protected LayerMask targetLayer;
     [SerializeField] protected float searchBoundary;
     private Transform attackTarget;
+
+    float targetDistancewithDraw = 0f;
     
     // TOOD:: health, combat, Level
 
@@ -59,6 +61,8 @@ public class Gun : MonoBehaviour
         }
 
         Vector2 targetDir = attackTarget.position - transform.position;
+        targetDistancewithDraw = targetDir.magnitude;
+
         if (targetDir.sqrMagnitude < 1e-6f)
             return;
 
@@ -104,6 +108,10 @@ public class Gun : MonoBehaviour
         float eulerAngleZ = transform.eulerAngles.z;
         float singedZ = Mathf.DeltaAngle(0f, eulerAngleZ);
 
+        if (singedZ > 90f || singedZ < -90f)
+            sr.gameObject.transform.localScale = new Vector3(1f, -1f, 1f);
+        else
+            sr.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
     }
 
     private void OnDrawGizmos()
@@ -112,10 +120,10 @@ public class Gun : MonoBehaviour
             return;
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(launchPoint.position, 0.3f);
+        Gizmos.DrawWireSphere(launchPoint.position, 0.15f);
 
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(launchPoint.position, launchPoint.position + transform.right * 1f);
+        Gizmos.DrawLine(launchPoint.position, launchPoint.position + transform.right * targetDistancewithDraw);
 
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, searchBoundary);
