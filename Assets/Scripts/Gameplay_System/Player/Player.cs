@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 using Game.Prefab;
+using Game.GlobalFunc;
 
 public class Player : MonoBehaviour
 {
@@ -68,17 +69,15 @@ public class Player : MonoBehaviour
             return;
         }
 
-        MouseScrollPerformed(colList);
-        Debug.Log("Test");
+        ScrollDetectedForChangeIdx(count);
 
         // 여기서 VFX Component가 들어가게 되면, VFX 컴포넌트를 빼오고 없으면 못하게 넘어감
         if (input.Player.Interaction.WasPerformedThisFrame())
         {
-            //Debug.Log("Mouse Clicked.");
             GameObject targetObj = colList[colSelectIdx].gameObject;
             int curTargetLayer = targetObj.layer;
 
-            if (CompareLayer(targetObj, gunLayer))
+            if (LayerUtill.CompareLayerMask(targetObj, gunLayer))
             {
                 // 이 세계에서는 총이 딱 하나 나오기 때문에 그냥 캐싱한 거 쓰자
                 summonedGun.ChangeFollowHand(GrabState.grabbed);
@@ -95,17 +94,18 @@ public class Player : MonoBehaviour
         if (input.Player.Drop.WasPerformedThisFrame())
         {
             summonedGun.ChangeFollowHand(GrabState.dropped);
+            summonedGun.SetVelocity(0f, 0f);
             grabbedGun = false;
         }
     }
 
-    private void MouseScrollPerformed(Collider2D[] colList)
+    private void ScrollDetectedForChangeIdx(int size)
     {
         // 충돌 순서는 중요하지 않음, 이걸 정하는 순간 정렬을 하거나 해야 되는데
         // 이건 마우스 휠키 업, 다운으로 인덱스 값을 올리고 내리고 하면 될 것 같음
 
         if (input.Player.ScrollUp.WasPerformedThisFrame())
-            colSelectIdx = Mathf.Min(colSelectIdx + 1, colList.Length - 1);
+            colSelectIdx = Mathf.Min(colSelectIdx + 1, size - 1);
         else if (input.Player.ScrollDown.WasPerformedThisFrame())
             colSelectIdx = Mathf.Max(colSelectIdx - 1, 0);
     }
@@ -150,11 +150,6 @@ public class Player : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, searchBoundary);
-    }
-
-    private bool CompareLayer(GameObject target, LayerMask src)
-    {
-        return 0 != (1 << target.layer & gunLayer.value);
     }
     // 1. 총이랑 콜라이더 충돌 후, 총을 클릭했을 때 grabbedGun true 전환
     // 2. summonedGun을 사용해서 플레이어 따라가는 bool 변수를 트리거하고 Update를 통해 따라다니도록 설계

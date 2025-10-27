@@ -17,7 +17,7 @@ TagManager:
   - Item
   - NPC
   - Gun
-  - 
+  - Bullet
   - 
   - 
   - 
@@ -50,6 +50,9 @@ TagManager:
     locked: 0
   - name: GrabbedGun
     uniqueID: 3146132053
+    locked: 0
+  - name: Bullet
+    uniqueID: 4290391411
     locked: 0
   - name: PlayerHand
     uniqueID: 3008905781
