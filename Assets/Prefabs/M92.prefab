@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 4159511551976301387}
   - component: {fileID: 2529834561287093401}
   - component: {fileID: -8614059963441643463}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: M92
   m_TagString: Gun
   m_Icon: {fileID: 0}
@@ -171,7 +171,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 15
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 0

@@ -41,6 +41,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ScrollUp",
+                    "type": "Value",
+                    "id": "d23a12cd-78f1-4933-a1f3-e62693fe1061",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ScrollDown",
+                    "type": "Button",
+                    "id": "8c9745b4-57dc-43e7-b683-8562a44e07dc",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -96,6 +114,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Building",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "503ab053-690e-4163-86b1-1e140c8e1207",
+                    "path": "<Mouse>/scroll/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ScrollUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "504ea7fe-6f7c-4198-9d80-7a2624fcca33",
+                    "path": "<Mouse>/scroll/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ScrollDown",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

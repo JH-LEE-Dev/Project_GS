@@ -20,7 +20,7 @@ public class Gun : MonoBehaviour
     [Header("Offense Details")]
     [SerializeField] protected Transform launchPoint;
     [SerializeField] protected float rotateTime;
-    private float rotVal;
+    private float rotVel;
 
     [Header("Collision Details")]
     [SerializeField] protected LayerMask targetLayer;
@@ -41,7 +41,7 @@ public class Gun : MonoBehaviour
         sr ??= GetComponentInChildren<SpriteRenderer>();
         gunStats ??= GetComponent<Gun_StatComponent>();
 
-        ChangeFollowHand(GrabState.grabbed);
+        ChangeFollowHand(GrabState.dropped);
         gunStats?.CashingPlayerStat(playerBaseState);
     }
 
@@ -69,7 +69,7 @@ public class Gun : MonoBehaviour
         float targetZ = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg;
 
         float currentZ = transform.eulerAngles.z;
-        float nextZ = Mathf.SmoothDampAngle(currentZ, targetZ, ref rotVal, rotateTime, Mathf.Infinity, Time.deltaTime);
+        float nextZ = Mathf.SmoothDampAngle(currentZ, targetZ, ref rotVel, rotateTime, Mathf.Infinity, Time.deltaTime);
 
         transform.rotation = Quaternion.Euler(0f, 0f, nextZ);
     }
@@ -86,11 +86,11 @@ public class Gun : MonoBehaviour
 
     private void MoveToPlayer()
     {
-        if (null == entityMoveComp || null == player || null == gunStats)
+        if (null == entityMoveComp || null == player || null == gunStats || GrabState.grabbed != currState)
             return;
 
         entityMoveComp.MoveToTargetLerp(player.transform, gunStats.GetTotalSpeed());
-        Debug.Log("Gun - MoveToPlayer: Run.");
+        //Debug.Log("Gun - MoveToPlayer: Run.");
     }
 
     public void ChangeFollowHand(GrabState newState)
