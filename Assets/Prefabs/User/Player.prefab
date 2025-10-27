@@ -164,7 +164,7 @@ MonoBehaviour:
   equipmentGunName: 0
   gunPrefab:
   - name: 0
-    prefab: {fileID: 8824325590160880606, guid: 2a62f153d69b20541ba308af5d554ccc, type: 3}
+    prefab: {fileID: 8824325590160880606, guid: 004eae6e5bbcf3d4ab1da537aaf0a491, type: 3}
   - name: 1
     prefab: {fileID: 0}
   - name: 2
@@ -184,7 +184,6 @@ MonoBehaviour:
   npcLayer:
     serializedVersion: 2
     m_Bits: 512
-  temp: []
 --- !u!114 &8290140445188164239
 MonoBehaviour:
   m_ObjectHideFlags: 0
