@@ -127,7 +127,7 @@ public class Gun : Entity
 
     public void FireSystem()
     {
-        if (null == bulletPrefab)
+        if (null == bulletPrefab || null == aimTarget)
             return;
 
         // 발사 속도( 발사 시간 ) 계산해서 생산
