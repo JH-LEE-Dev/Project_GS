@@ -5,20 +5,34 @@ public class Projectile : Entity
 {
     SpriteRenderer sr;
 
-    [Header("Details")]
+    [Header("CCD Details")]
+    CapsuleCollider2D capCol;
+
+    [Header("Target Details")]
     [SerializeField] private LayerMask targetLayer;
     [SerializeField] private float suicideDistance = 14f;
+    private float speed;
     private float damage;
     private int penCount;
 
     Transform summoner;
 
+    private readonly RaycastHit2D[] hits = new RaycastHit2D[20];
+    private Vector2 prevPos;
 
     private void Awake()
     {
         rb ??= GetComponent<Rigidbody2D>();
-        col ??= GetComponent<Collider2D>();
+        capCol ??= GetComponent<CapsuleCollider2D>();
         sr ??= GetComponentInChildren<SpriteRenderer>();
+    }
+
+    private void FixedUpdate()
+    {
+        if (null == rb)
+            return;
+
+        rb.linearVelocity = transform.right * 13f;//speed;
     }
 
     private void Update()
@@ -53,7 +67,6 @@ public class Projectile : Entity
         Destroy(gameObject);
     }
 
-    
     public void StraightToTarget(Transform summoner, float damage, int penCount, float Speed)
     {
         if (null == rb)
@@ -83,12 +96,8 @@ public class Projectile : Entity
             Destroy(gameObject);
     }
 
-    [ContextMenu("FireBullet")]
-    public void StraightToTarget()
+    private void OnEnable()
     {
-        if (null == rb)
-            return;
-
-        rb.linearVelocityX = 15f;//Speed;
+        prevPos = rb.position;
     }
 }

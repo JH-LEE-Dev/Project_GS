@@ -72,6 +72,7 @@ public class Player : MonoBehaviour
         ScrollDetectedForChangeIdx(count);
 
         // 여기서 VFX Component가 들어가게 되면, VFX 컴포넌트를 빼오고 없으면 못하게 넘어감
+
         if (input.Player.Interaction.WasPerformedThisFrame())
         {
             GameObject targetObj = colList[colSelectIdx].gameObject;

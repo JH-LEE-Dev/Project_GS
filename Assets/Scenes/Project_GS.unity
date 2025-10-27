@@ -220,7 +220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game_Controller
   waveCnt: 15
-  prepareTime: 20
+  prepareTime: 2
   waveTime: 20
   delayTime: 3
 --- !u!1 &52152355
