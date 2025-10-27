@@ -52,9 +52,13 @@ public class Gun : Entity
         gunStatComp?.CashingPlayerStat(playerStatComp);
     }
 
-    public virtual void Update()
+    public virtual void FixedUpdate()
     {
         MoveToPlayer();
+    }
+
+    public virtual void Update()
+    {
         RotateToTarget();
         Flip();
         FireSystem();
