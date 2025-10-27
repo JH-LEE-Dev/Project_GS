@@ -138,7 +138,7 @@ public class Gun : Entity
         Projectile projectile = summonedObj?.GetComponent<Projectile>();
 
         // 여기서 대미지 계산, 관통 수 계산, 스피드 계산
-        projectile?.StraightToTarget(1f, 1, 10f);
+        projectile?.StraightToTarget(transform, 1f, 1, 10f);
         fireTime = Time.time;
     }
 
