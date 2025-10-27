@@ -7,14 +7,23 @@ public class Projectile : Entity
 
     [Header("Details")]
     [SerializeField] private LayerMask targetLayer;
+    [SerializeField] private float suicideDistance = 14f;
     private float damage;
     private int penCount;
+
+    Transform summoner;
+
 
     private void Awake()
     {
         rb ??= GetComponent<Rigidbody2D>();
         col ??= GetComponent<Collider2D>();
         sr ??= GetComponentInChildren<SpriteRenderer>();
+    }
+
+    private void Update()
+    {
+        SuicideDistanceCheck();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -39,21 +48,39 @@ public class Projectile : Entity
             return;
         }
 
-        // TODO :: 나중엔 오브젝트 풀링으로 바꿔야 함
+        // TODO :: 오브젝트 풀링
         damageable.TakeDamage(damage);
-        Destroy(this);
+        Destroy(gameObject);
     }
 
     
-    public void StraightToTarget(float damage, int penCount, float Speed)
+    public void StraightToTarget(Transform summoner, float damage, int penCount, float Speed)
     {
         if (null == rb)
             return;
 
+        this.summoner = summoner;
         this.damage = damage;
         this.penCount = penCount;
 
         rb.linearVelocity = transform.right * 13f;//Speed;
+    }
+
+    private void SuicideDistanceCheck()
+    {
+        // 소환한 객체가 존재하지 않으면 즉시 파괴
+        // ( 캐릭터가 죽어도 존재해야 하는데 없으면 버그임 )
+        if (null == summoner)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        float distance = (summoner.position - transform.position).magnitude;
+
+        // TODO :: 오브젝트 풀링
+        if (distance > suicideDistance)
+            Destroy(gameObject);
     }
 
     [ContextMenu("FireBullet")]

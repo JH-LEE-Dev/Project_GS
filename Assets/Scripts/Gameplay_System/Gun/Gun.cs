@@ -52,9 +52,13 @@ public class Gun : Entity
         gunStatComp?.CashingPlayerStat(playerStatComp);
     }
 
-    public virtual void Update()
+    public virtual void FixedUpdate()
     {
         MoveToPlayer();
+    }
+
+    public virtual void Update()
+    {
         RotateToTarget();
         Flip();
         FireSystem();
@@ -127,7 +131,7 @@ public class Gun : Entity
 
     public void FireSystem()
     {
-        if (null == bulletPrefab)
+        if (null == bulletPrefab || null == aimTarget)
             return;
 
         // 발사 속도( 발사 시간 ) 계산해서 생산
@@ -138,7 +142,7 @@ public class Gun : Entity
         Projectile projectile = summonedObj?.GetComponent<Projectile>();
 
         // 여기서 대미지 계산, 관통 수 계산, 스피드 계산
-        projectile?.StraightToTarget(1f, 1, 10f);
+        projectile?.StraightToTarget(transform, 1f, 1, 10f);
         fireTime = Time.time;
     }
 
