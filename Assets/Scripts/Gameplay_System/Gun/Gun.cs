@@ -4,12 +4,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
-public class Gun : MonoBehaviour
+public class Gun : Entity
 {
     protected Player player;
-    protected Player_StatComponent playerBaseState;
+    protected Player_StatComponent playerStatComp;
     protected Entity_MovementComponent entityMoveComp;
-    protected Gun_StatComponent gunStats;
+    protected Gun_StatComponent gunStatComp;
     private SpriteRenderer sr;
 
     [Header("Gun State Details")]
@@ -20,29 +20,36 @@ public class Gun : MonoBehaviour
     [Header("Offense Details")]
     [SerializeField] protected Transform launchPoint;
     [SerializeField] protected float rotateTime;
-    private float rotVal;
+    [SerializeField] protected GameObject bulletPrefab;
+    private float rotVel;
+    private float targetDistForGizmo = 0f;
+    private float fireTime;
 
     [Header("Collision Details")]
     [SerializeField] protected LayerMask targetLayer;
-    [SerializeField] protected float searchBoundary;
-    private Transform attackTarget;
-
-    float targetDistancewithDraw = 0f;
-    
-    // TOOD:: health, combat, Level
+    [SerializeField] protected float searchBound;
+    private Transform aimTarget;
+   
+    // TOOD:: health, combat
 
     // 화기 전용 스킬 ( 각자 다름, 클래스 파생 )
 
     public virtual void Initialize(Player player)
     {
         this.player ??= player;
-        playerBaseState ??= player.GetComponent<Player_StatComponent>();
-        entityMoveComp ??= GetComponent<Entity_MovementComponent>();
-        sr ??= GetComponentInChildren<SpriteRenderer>();
-        gunStats ??= GetComponent<Gun_StatComponent>();
 
-        ChangeFollowHand(GrabState.grabbed);
-        gunStats?.CashingPlayerStat(playerBaseState);
+        // - [ Default Attributes ] -
+        rb ??= GetComponent<Rigidbody2D>();
+        col ??= GetComponent<Collider2D>();
+        sr ??= GetComponentInChildren<SpriteRenderer>();
+
+        // - [ Components ] -
+        playerStatComp ??= player.GetComponent<Player_StatComponent>();
+        gunStatComp ??= GetComponent<Gun_StatComponent>();
+        entityMoveComp ??= GetComponent<Entity_MovementComponent>();
+
+        ChangeFollowHand(GrabState.dropped);
+        gunStatComp?.CashingPlayerStat(playerStatComp);
     }
 
     public virtual void Update()
@@ -50,18 +57,20 @@ public class Gun : MonoBehaviour
         MoveToPlayer();
         RotateToTarget();
         Flip();
+        FireSystem();
     }
+
     private void RotateToTarget()
     {
-        if (null == attackTarget)
+        if (null == aimTarget)
         {
-            attackTarget = RandomSearchObject();
-            if (null == attackTarget)
+            aimTarget = RandomSearchObject();
+            if (null == aimTarget)
                 return;
         }
 
-        Vector2 targetDir = attackTarget.position - transform.position;
-        targetDistancewithDraw = targetDir.magnitude;
+        Vector2 targetDir = aimTarget.position - transform.position;
+        targetDistForGizmo = targetDir.magnitude;
 
         if (targetDir.sqrMagnitude < 1e-6f)
             return;
@@ -69,14 +78,14 @@ public class Gun : MonoBehaviour
         float targetZ = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg;
 
         float currentZ = transform.eulerAngles.z;
-        float nextZ = Mathf.SmoothDampAngle(currentZ, targetZ, ref rotVal, rotateTime, Mathf.Infinity, Time.deltaTime);
+        float nextZ = Mathf.SmoothDampAngle(currentZ, targetZ, ref rotVel, rotateTime, Mathf.Infinity, Time.deltaTime);
 
         transform.rotation = Quaternion.Euler(0f, 0f, nextZ);
     }
 
     private Transform RandomSearchObject()
     {
-        Collider2D target = Physics2D.OverlapCircle(transform.position, searchBoundary, targetLayer);
+        Collider2D target = Physics2D.OverlapCircle(transform.position, searchBound, targetLayer);
 
         if (null == target)
             return null;
@@ -86,11 +95,13 @@ public class Gun : MonoBehaviour
 
     private void MoveToPlayer()
     {
-        if (null == entityMoveComp || null == player || null == gunStats)
+        if (null == entityMoveComp || null == player || null == gunStatComp)
             return;
 
-        entityMoveComp.MoveToTargetLerp(player.transform, gunStats.GetTotalSpeed());
-        Debug.Log("Gun - MoveToPlayer: Run.");
+        if (GrabState.grabbed != currState)
+            return;
+
+        entityMoveComp.MoveToTargetLerp(player.transform, gunStatComp.GetTotalSpeed());
     }
 
     public void ChangeFollowHand(GrabState newState)
@@ -114,6 +125,23 @@ public class Gun : MonoBehaviour
             sr.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
     }
 
+    public void FireSystem()
+    {
+        if (null == bulletPrefab)
+            return;
+
+        // 발사 속도( 발사 시간 ) 계산해서 생산
+        if (Time.time - fireTime < 2.5f)
+            return;
+
+        GameObject summonedObj = Instantiate(bulletPrefab, launchPoint.position, transform.rotation);
+        Projectile projectile = summonedObj?.GetComponent<Projectile>();
+
+        // 여기서 대미지 계산, 관통 수 계산, 스피드 계산
+        projectile?.StraightToTarget(1f, 1, 10f);
+        fireTime = Time.time;
+    }
+
     private void OnDrawGizmos()
     {
         if (null == launchPoint)
@@ -123,9 +151,9 @@ public class Gun : MonoBehaviour
         Gizmos.DrawWireSphere(launchPoint.position, 0.15f);
 
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(launchPoint.position, launchPoint.position + transform.right * targetDistancewithDraw);
+        Gizmos.DrawLine(launchPoint.position, launchPoint.position + transform.right * targetDistForGizmo);
 
         Gizmos.color = Color.white;
-        Gizmos.DrawWireSphere(transform.position, searchBoundary);
+        Gizmos.DrawWireSphere(transform.position, searchBound);
     }
 }

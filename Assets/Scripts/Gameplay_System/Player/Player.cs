@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 using Game.Prefab;
+using Game.GlobalFunc;
 
 public class Player : MonoBehaviour
 {
@@ -15,8 +16,8 @@ public class Player : MonoBehaviour
     // 총이 가진 특수 기능만 스크립트를 바꾸는 게 가능한가
 
     [Header("Collision Details")]
-    [SerializeField] private Transform collTransform;
-    [SerializeField] private float circleRadius;
+    [SerializeField] private float searchBoundary = 1f;
+    [SerializeField] private int colSelectIdx = 0;
 
     [Header("Summoned Gun Information Details")]
     [SerializeField] private bool grabbedGun;
@@ -25,7 +26,9 @@ public class Player : MonoBehaviour
     private Gun summonedGun;
 
     [Header("Collision LayerMask Details")]
-    [SerializeField] private LayerMask[] collisionLayer;
+    [SerializeField] private LayerMask gunLayer;
+    [SerializeField] private LayerMask itemLayer;
+    [SerializeField] private LayerMask npcLayer;
 
     private Camera cam;
 
@@ -39,7 +42,9 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        CollisionClosest();
         MouseChase();
+        PutdownGun();
     }
 
     private void MouseChase()
@@ -53,7 +58,56 @@ public class Player : MonoBehaviour
 
     private void CollisionClosest()
     {
-        
+        // 충돌할 때 Collider2D[] 배열을 계속 생성하는 것도 추후에 바꿔야 함
+        LayerMask combinedLayer = grabbedGun ? (itemLayer | npcLayer) : (gunLayer | itemLayer | npcLayer);
+        Collider2D[] colList = Physics2D.OverlapCircleAll(transform.position, searchBoundary, combinedLayer);
+
+        int count = colList.Length;
+        if (count <= 0)
+        {
+            colSelectIdx = 0;
+            return;
+        }
+
+        ScrollDetectedForChangeIdx(count);
+
+        // 여기서 VFX Component가 들어가게 되면, VFX 컴포넌트를 빼오고 없으면 못하게 넘어감
+        if (input.Player.Interaction.WasPerformedThisFrame())
+        {
+            GameObject targetObj = colList[colSelectIdx].gameObject;
+            int curTargetLayer = targetObj.layer;
+
+            if (LayerUtill.CompareLayerMask(targetObj, gunLayer))
+            {
+                // 이 세계에서는 총이 딱 하나 나오기 때문에 그냥 캐싱한 거 쓰자
+                summonedGun.ChangeFollowHand(GrabState.grabbed);
+                grabbedGun = true;
+            }
+        }
+    }
+
+    private void PutdownGun()
+    {
+        if (!grabbedGun)
+            return;
+
+        if (input.Player.Drop.WasPerformedThisFrame())
+        {
+            summonedGun.ChangeFollowHand(GrabState.dropped);
+            summonedGun.SetVelocity(0f, 0f);
+            grabbedGun = false;
+        }
+    }
+
+    private void ScrollDetectedForChangeIdx(int size)
+    {
+        // 충돌 순서는 중요하지 않음, 이걸 정하는 순간 정렬을 하거나 해야 되는데
+        // 이건 마우스 휠키 업, 다운으로 인덱스 값을 올리고 내리고 하면 될 것 같음
+
+        if (input.Player.ScrollUp.WasPerformedThisFrame())
+            colSelectIdx = Mathf.Min(colSelectIdx + 1, size - 1);
+        else if (input.Player.ScrollDown.WasPerformedThisFrame())
+            colSelectIdx = Mathf.Max(colSelectIdx - 1, 0);
     }
 
     public GameObject CreateGun(Transform spawnPoint)
@@ -67,7 +121,7 @@ public class Player : MonoBehaviour
         summonedGun.Initialize(this);
         grabbedGun = false;
 
-        Debug.Log("Successfully Completed a Gun Spawn");
+        //Debug.Log("Successfully Completed a Gun Spawn");
 
         return summonedObject;
     }
@@ -92,6 +146,11 @@ public class Player : MonoBehaviour
     }
 #endif
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, searchBoundary);
+    }
     // 1. 총이랑 콜라이더 충돌 후, 총을 클릭했을 때 grabbedGun true 전환
     // 2. summonedGun을 사용해서 플레이어 따라가는 bool 변수를 트리거하고 Update를 통해 따라다니도록 설계
 }
