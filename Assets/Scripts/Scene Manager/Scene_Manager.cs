@@ -21,6 +21,7 @@ public class Scene_Manager : MonoBehaviour
     {
         if (instance != null && instance != this)
         {
+            Debug.Log("Destroy ");
             Destroy(gameObject);
             return;
         }

@@ -7,3 +7,5 @@ public enum GrabState { grabbed, dropped, end }
 public enum EnemyType { ZombieMen, ZombieMen2, ZombieGirl1, ZombieGirl2 };
 
 public enum EnemyAnimState { Idle, Move, Attack, Die }
+
+public enum GameState { SceneChanged,Prepare, Wave, BossWave };

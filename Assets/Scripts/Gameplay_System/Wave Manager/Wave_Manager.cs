@@ -11,6 +11,16 @@ public class Wave_Manager : MonoBehaviour
     [Header("Spawn Details")]
     private GameObject enemyPrefab;
 
+    public void OnEnable()
+    {
+        Game_Controller.OnStartWave += SpawnWave;    
+    }
+
+    public void OnDisable()
+    {
+        Game_Controller.OnStartWave -= SpawnWave;
+    }
+
     public void Initialize(GameObject _player)
     {
         player = _player;
@@ -35,11 +45,6 @@ public class Wave_Manager : MonoBehaviour
 
             Enemy_Manager.SpawnEnemy(spawnPoint,i);
         }
-    }
-
-    public void StartWave()
-    {
-        SpawnWave();
     }
 
     Tuple<float, float> GetCameraBoundary()
