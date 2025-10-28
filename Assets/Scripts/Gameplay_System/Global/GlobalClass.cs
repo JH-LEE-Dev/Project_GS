@@ -28,6 +28,7 @@ namespace Game.Stats
         public SimpleValue baseCritPower;       // 크리티컬 힘
         public SimpleValue baseAmmo;            // 탄약
         public SimpleValue basePen;             // 관통력
+        public SimpleValue fireSpeed;           // 발사 속도
     }
 }
 

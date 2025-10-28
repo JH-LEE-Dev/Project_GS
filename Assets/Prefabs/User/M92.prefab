@@ -258,7 +258,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Gun_StatComponent
   offense:
     baseDamage:
-      value: 0
+      value: 10
     baseCritChance:
       value: 0
     baseCritPower:
@@ -267,6 +267,8 @@ MonoBehaviour:
       value: 0
     basePen:
       value: 0
+    fireSpeed:
+      value: 2.5
   resource:
     baseHealth:
       value: 0
@@ -319,6 +321,10 @@ MonoBehaviour:
       curUpgradeAmount: 0
       maxUgradeAmount: 0
       upgradeValue: 0
+    fireSpeed:
+      curUpgradeAmount: 0
+      maxUgradeAmount: 7
+      upgradeValue: 0.05
 --- !u!114 &-8614059963441643463
 MonoBehaviour:
   m_ObjectHideFlags: 0

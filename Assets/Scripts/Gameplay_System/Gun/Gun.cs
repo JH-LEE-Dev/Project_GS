@@ -131,18 +131,22 @@ public class Gun : Entity
 
     public void FireSystem()
     {
-        if (null == bulletPrefab || null == aimTarget)
+        if (null == bulletPrefab || null == aimTarget || null == gunStatComp)
             return;
 
-        // 발사 속도( 발사 시간 ) 계산해서 생산
-        if (Time.time - fireTime < 2.5f)
+        // 총알 발사 속도 계산
+        if (Time.time - fireTime < gunStatComp.GetCalcFireSpeed())
             return;
 
         GameObject summonedObj = Instantiate(bulletPrefab, launchPoint.position, transform.rotation);
         Projectile projectile = summonedObj?.GetComponent<Projectile>();
 
-        // 여기서 대미지 계산, 관통 수 계산, 스피드 계산
-        projectile?.StraightToTarget(transform, 1f, 1, 10f);
+        // 여기서 대미지 계산, 관통 수 계산
+        bool isCrit;
+        float totalDamage = gunStatComp.GetTotalDamage(out isCrit, 1f);
+        int totalPenCount = gunStatComp.GetTotalPenCount();
+
+        projectile?.StraightToTarget(transform, totalDamage, totalPenCount);
         fireTime = Time.time;
     }
 

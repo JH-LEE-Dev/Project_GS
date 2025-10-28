@@ -111,10 +111,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08950007c1d980f4ea1dbe4121e44f02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
+  speed: 15
   targetLayer:
     serializedVersion: 2
     m_Bits: 128
-  suicideDistance: 14
+  suicideDistance: 20
 --- !u!1 &6960077852355386937
 GameObject:
   m_ObjectHideFlags: 0
