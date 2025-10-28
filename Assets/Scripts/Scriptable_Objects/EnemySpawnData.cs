@@ -9,4 +9,7 @@ public class EnemySpawnData : ScriptableObject
     public GameObject[] bossPrefabs;
     public int[] sideAlphaX = new int[4];
     public int[] sideAlphaY = new int[4];
+    public float reLocateDist;
+    public float reLocateMinRadius;
+    public float reLocateMaxRadius;
 }
