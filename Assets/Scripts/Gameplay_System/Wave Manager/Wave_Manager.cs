@@ -6,7 +6,8 @@ public class Wave_Manager : MonoBehaviour
 {
     [Header("Player Details")]
     private GameObject player;
-    [SerializeField] private float spawnDistanceAlpha;
+    [SerializeField] private float spawnDistanceAlphaH;
+    [SerializeField] private float spawnDistanceAlphaW;
 
     [Header("Spawn Details")]
     private GameObject enemyPrefab;
@@ -40,8 +41,8 @@ public class Wave_Manager : MonoBehaviour
         for (int i = 0; i < 4; ++i)
         {
             Vector3 spawnPoint = playerPosition;
-            spawnPoint.x += (W[i]*spawnDistanceAlpha) * cameraWidth;
-            spawnPoint.y += (H[i]*spawnDistanceAlpha) * cameraHeight;
+            spawnPoint.x += (W[i]*spawnDistanceAlphaW) * cameraWidth;
+            spawnPoint.y += (H[i]*spawnDistanceAlphaH) * cameraHeight;
 
             Enemy_Manager.SpawnEnemy(spawnPoint,i);
         }

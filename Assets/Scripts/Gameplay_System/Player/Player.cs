@@ -1,9 +1,9 @@
+using Game.GlobalFunc;
+using Game.Prefab;
+using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
-using Game.Prefab;
-using Game.GlobalFunc;
 
 public class Player : MonoBehaviour
 {
@@ -122,6 +122,7 @@ public class Player : MonoBehaviour
         grabbedGun = false;
 
         //Debug.Log("Successfully Completed a Gun Spawn");
+        SetCameraTarget();
 
         return summonedObject;
     }
@@ -153,4 +154,10 @@ public class Player : MonoBehaviour
     }
     // 1. 총이랑 콜라이더 충돌 후, 총을 클릭했을 때 grabbedGun true 전환
     // 2. summonedGun을 사용해서 플레이어 따라가는 bool 변수를 트리거하고 Update를 통해 따라다니도록 설계
+
+    private void SetCameraTarget()
+    {
+        CinemachineCamera vCam = FindAnyObjectByType<CinemachineCamera>();
+        vCam.Follow = summonedGun.transform;
+    }
 }

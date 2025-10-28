@@ -7,6 +7,7 @@ public class Gameplay_System : MonoBehaviour
     private Wave_Manager waveManager;
     private Game_Controller gameController;
     private UI_Manager uiManager;
+    private Background_Manager backgroundManager;
 
     private void Awake()
     {
@@ -15,6 +16,7 @@ public class Gameplay_System : MonoBehaviour
         waveManager = GetComponent<Wave_Manager>();
         gameController = GetComponent<Game_Controller>();
         uiManager = GetComponent<UI_Manager>();
+        backgroundManager = GetComponent<Background_Manager>();
     }
 
     private void Start()
@@ -26,5 +28,6 @@ public class Gameplay_System : MonoBehaviour
 
         enemyManager.Initialize(curGun);
         waveManager.Initialize(curGun);
+        backgroundManager.Initialize(curGun);
     }
 }
