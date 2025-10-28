@@ -23,6 +23,18 @@ public class Enemy : Entity
         healthComponent = GetComponent<EHealth_Component>();
         statComponent = GetComponent<EStat_Component>();
         stateController = GetComponent<Enemy_StateController>();
+
+        healthComponent.SetHPData(statComponent.resource.baseHealth.GetValue());
+    }
+
+    private void OnEnable()
+    {
+        healthComponent.OnEnemyDead += HandleEnemyDead;
+    }
+
+    private void OnDisable()
+    {
+        healthComponent.OnEnemyDead -= HandleEnemyDead;
     }
 
     private void Start()
@@ -37,5 +49,25 @@ public class Enemy : Entity
     {
         player = _player;
         movementComponent.SetTarget(player);
+    }
+
+    private void Update()
+    {
+        HandleRelocate();
+    }
+
+    private void HandleRelocate()
+    {
+        var posDelta = player.transform.position - transform.position;
+
+        if (posDelta.magnitude > Enemy_Manager.reLocateDist)
+        {
+            Enemy_Manager.ReLocateEnemy(gameObject);
+        }
+    }
+
+    private void HandleEnemyDead()
+    {
+        Destroy(gameObject);
     }
 }

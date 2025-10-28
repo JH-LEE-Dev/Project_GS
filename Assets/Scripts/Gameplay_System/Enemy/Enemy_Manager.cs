@@ -8,6 +8,10 @@ public class Enemy_Manager : MonoBehaviour
     private static GameObject player;
     private static GameObject[] enemyPrefabs;
 
+    public static float reLocateDist;
+    private static float reLocateMinRadius;
+    private static float reLocateMaxRadius;
+
     private static int[] sideAlphaX = { 0, 0, 0, 0 };
     private static int[] sideAlphaY = { 0, 0, 0, 0 };
 
@@ -16,6 +20,9 @@ public class Enemy_Manager : MonoBehaviour
         enemyPrefabs = enemySpawnData.enemyPrefabs;
         sideAlphaX = enemySpawnData.sideAlphaX;
         sideAlphaY = enemySpawnData.sideAlphaY;
+        reLocateDist = enemySpawnData.reLocateDist;
+        reLocateMinRadius = enemySpawnData.reLocateMinRadius;
+        reLocateMaxRadius = enemySpawnData.reLocateMaxRadius;
     }
 
     public static void SpawnEnemy(Vector3 spawningTransform,int side)
@@ -51,5 +58,17 @@ public class Enemy_Manager : MonoBehaviour
     public void Initialize(GameObject _player)
     {
         player = _player;
+    }
+
+    public static void ReLocateEnemy(GameObject enemy)
+    {
+        float radius = Random.Range(reLocateMinRadius, reLocateMaxRadius);
+        float angle = Random.Range(0f, Mathf.PI * 2);
+        float x = Mathf.Cos(angle) * (radius) + player.transform.position.x;
+        float y = Mathf.Sin(angle) * (radius) + player.transform.position.y;
+
+        Vector3 spawnPos = new Vector3(x, y, 0f);
+
+        enemy.transform.position = spawnPos;
     }
 }
