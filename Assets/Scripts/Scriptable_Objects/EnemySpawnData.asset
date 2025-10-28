@@ -20,6 +20,6 @@ MonoBehaviour:
   bossPrefabs: []
   sideAlphaX: 00000000000000000300000003000000
   sideAlphaY: 03000000030000000000000000000000
-  reLocateDist: 100
-  reLocateMinRadius: 70
-  reLocateMaxRadius: 80
+  reLocateDist: 40
+  reLocateMinRadius: 30
+  reLocateMaxRadius: 40
