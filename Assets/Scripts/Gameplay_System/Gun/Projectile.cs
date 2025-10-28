@@ -6,6 +6,8 @@ using System.Collections.Generic;
 public class Projectile : Entity
 {
     SpriteRenderer sr;
+    [Header("Bullet Details")]
+    [SerializeField] private float speed = 13f;
 
     [Header("Target Details")]
     [SerializeField] private LayerMask targetLayer;
@@ -13,7 +15,6 @@ public class Projectile : Entity
 
     [Header("Summoner Details")]
     Transform summoner;
-    private float speed;
     private float damage;
     private int penCount;
 
@@ -44,16 +45,16 @@ public class Projectile : Entity
         SuicideDistanceCheck();
     }
 
-    public void StraightToTarget(Transform summoner, float damage, int penCount, float Speed)
+    public void StraightToTarget(Transform summoner, float damage, int penCount)
     {
         if (null == rb)
             return;
 
-        this.summoner = summoner;
+        this.summoner ??= summoner;
         this.damage = damage;
         this.penCount = penCount;
 
-        rb.linearVelocity = transform.right * 13f;//Speed;
+        rb.linearVelocity = transform.right * speed;
     }
 
     private void SuicideDistanceCheck()

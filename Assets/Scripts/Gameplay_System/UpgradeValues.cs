@@ -9,6 +9,7 @@ public class UpgradeValues
     [SerializeField] private float upgradeValue;
 
     public int GetAmount() => curUpgradeAmount;
+    public float GetUpgradeValue() => upgradeValue;
 
     public float GetCalcValue()
     {
@@ -40,6 +41,7 @@ public class EnhanceValue
     public UpgradeValues launchSpeed;     // 발사속도
     public UpgradeValues reloadSpeed;     // 재장전속도
     public UpgradeValues critChance;      // 크리티컬 확률
-    public UpgradeValues critPower;      // 크리티컬 대미지
+    public UpgradeValues critPower;       // 크리티컬 대미지
+    public UpgradeValues fireSpeed;       // 크리티컬 대미지
 }
 
