@@ -134,7 +134,7 @@ public class Gun : Entity
         if (null == bulletPrefab || null == aimTarget || null == gunStatComp)
             return;
 
-        // 총알 발사 속도 계산
+        // 총알 발사속도 계산
         if (Time.time - fireTime < gunStatComp.GetCalcFireSpeed())
             return;
 
