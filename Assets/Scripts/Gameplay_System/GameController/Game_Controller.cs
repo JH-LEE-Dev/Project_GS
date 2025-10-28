@@ -52,9 +52,6 @@ public class Game_Controller : MonoBehaviour
 
     private void ChangeGameState(GameState state)
     {
-        if (gameState == state)
-            return;
-
         gameState = state;
 
         switch (state)
@@ -64,13 +61,13 @@ public class Game_Controller : MonoBehaviour
                 break;
             case GameState.Wave:
                 curTime = (int)waveTime;
+                OnStartWave.Invoke();
                 break;
             case GameState.BossWave:
                 break;
         }
 
         bWaveChanged = false;
-
         OnStartState.Invoke();
     }
 
@@ -120,8 +117,7 @@ public class Game_Controller : MonoBehaviour
         }
         else
         {
-            curTime = waveTime;
-            OnStartWave.Invoke();
+            ChangeGameState(GameState.Wave);
         }
     }
 
@@ -131,7 +127,6 @@ public class Game_Controller : MonoBehaviour
 
         yield return new WaitForSeconds(delayTime);
 
-        OnStartWave.Invoke();
         ChangeGameState(GameState.Wave);
     }
 

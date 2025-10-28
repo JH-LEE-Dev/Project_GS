@@ -17,7 +17,10 @@ public class EMovement_Component : Entity_MovementComponent
     private void Update()
     {
         HandleFlip();
+    }
 
+    private void FixedUpdate()
+    {
         if (target != null)
             MoveToTarget(target.transform, sampleSpeed);
     }
